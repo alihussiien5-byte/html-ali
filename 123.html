@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحت التعلم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 3D Perspective Container */
+        .perspective-container {
+            perspective: 2000px;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Card Effects */
+        .service-card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        .service-card-3d:hover {
+            transform: translateY(-20px) rotateX(10deg) rotateY(-5deg) scale(1.05);
+            box-shadow: 
+                0 30px 60px -15px rgba(139, 92, 246, 0.4),
+                0 0 40px rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Payment Method Cards 3D */
+        .payment-card-3d {
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .payment-card-3d::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg) translateY(-100%);
+            transition: transform 0.6s;
+        }
+
+        .payment-card-3d:hover::before {
+            transform: rotate(45deg) translateY(100%);
+        }
+
+        .payment-card-3d:hover {
+            transform: translateY(-10px) translateZ(30px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .payment-icon-wrapper {
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+
+        .payment-card-3d:hover .payment-icon-wrapper {
+            transform: translateZ(20px) scale(1.1);
+        }
+
+        /* Credit Card 3D Flip */
+        .credit-card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        .credit-card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .credit-card-container:hover .credit-card-3d {
+            transform: rotateY(180deg);
+        }
+
+        .credit-card-front, .credit-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .credit-card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-20px) rotateX(5deg); }
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* 3D Text Effect */
+        .text-3d {
+            text-shadow: 
+                1px 1px 0 rgba(139, 92, 246, 0.5),
+                2px 2px 0 rgba(139, 92, 246, 0.4),
+                3px 3px 0 rgba(139, 92, 246, 0.3),
+                4px 4px 0 rgba(139, 92, 246, 0.2),
+                5px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glass Morphism */
+        .glass-nav {
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0c29;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+            border-radius: 5px;
+        }
+
+        /* Button 3D Effect */
+        .btn-3d {
+            transform-style: preserve-3d;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        .btn-3d:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+        }
+        .btn-3d:active {
+            transform: translateY(-1px);
+        }
+
+        /* Particle Canvas */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hero 3D Elements */
+        .hero-3d-shape {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: pulse-glow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Service Icon 3D */
+        .icon-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .service-card-3d:hover .icon-3d {
+            transform: translateZ(30px) rotateY(360deg);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Pricing Card 3D */
+        .pricing-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            z-index: 10;
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+        .pricing-card.featured {
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: scale(1.05);
+        }
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-10px);
+        }
+
+        /* Stats Counter Animation */
+        .stat-number {
+            background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        /* Secure Badge Pulse */
+        @keyframes secure-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(34, 197, 94, 0); }
+        }
+
+        .secure-badge {
+            animation: secure-pulse 2s infinite;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(15, 12, 41, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 999;
+            display: none;
+            padding: 20px;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(139, 92, 246, 0.2);
+            padding-right: 25px;
+        }
+
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #8b5cf6;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Prevent text selection on buttons */
+        button, .service-card-3d, .payment-card-3d {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Fix for iOS tap highlight */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Particle Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="scrollToSection('home')">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center transform rotate-12 hover:rotate-45 transition-transform duration-500">
+                        <i class="fas fa-cube text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">ديجيتال برو</span>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <button onclick="scrollToSection('home')" class="hover:text-purple-400 transition-colors relative group bg-transparent border-none text-white cursor-pointer">
+                        الرئيسية
+                        <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('services')" class="hover:text-purple-400 transition-colors relative group bg-transparent border-none text-white cursor-pointer">
+                        الخدمات
+                        <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('pricing')" class="hover:text-purple-400 transition-colors relative group bg-transparent border-none text-white cursor-pointer">
+                        الأسعار
+                        <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('payment')" class="hover:text-purple-400 transition-colors relative group bg-transparent border-none text-white cursor-pointer">
+                        الدفع
+                        <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('contact')" class="hover:text-purple-400 transition-colors relative group bg-transparent border-none text-white cursor-pointer">
+                        تواصل معنا
+                        <span class="absolute -bottom-1 right-0 w-0 h-0.5 bg-purple-500 transition-all group-hover:w-full"></span>
+                    </button>
+                    
+                    <!-- زر تسجيل الدخول/حسابي -->
+                    <button onclick="checkLoginStatusRedirect()" class="btn-3d bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-2 rounded-full font-bold text-white hover:shadow-lg" id="loginBtn">
+                        تسجيل الدخول <i class="fas fa-sign-in-alt mr-2"></i>
+                    </button>
+                </div>
+
+                <button class="md:hidden text-2xl bg-transparent border-none text-white cursor-pointer p-2" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button onclick="scrollToSection('home'); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer">الرئيسية</button>
+        <button onclick="scrollToSection('services'); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer">الخدمات</button>
+        <button onclick="scrollToSection('pricing'); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer">الأسعار</button>
+        <button onclick="scrollToSection('payment'); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer">الدفع</button>
+        <button onclick="scrollToSection('contact'); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer">تواصل معنا</button>
+        <!-- زر تسجيل الدخول للموبايل -->
+        <button onclick="checkLoginStatusRedirect(); toggleMobileMenu()" class="w-full text-right bg-transparent border-none text-white cursor-pointer" id="mobileLoginBtn">
+            تسجيل الدخول <i class="fas fa-sign-in-alt mr-2"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+        <!-- 3D Background Shapes -->
+        <div class="hero-3d-shape top-20 right-10"></div>
+        <div class="hero-3d-shape bottom-20 left-10" style="animation-delay: 2s; background: linear-gradient(45deg, rgba(236, 72, 153, 0.3), rgba(139, 92, 246, 0.3));"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-right">
+                    <div class="floating-element">
+                        <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-3d">
+                            نحول أفكارك<br>
+                            <span class="gradient-text">إلى واقع رقمي</span>
+                        </h1>
+                        <p class="text-xl text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
+                            نقدم حلولاً رقمية متكاملة بتقنيات ثلاثية الأبعاد وتصاميم تفاعلية تجعل علامتك التجارية تتألق في الفضاء الرقمي
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <button onclick="scrollToSection('services')" class="btn-3d bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 rounded-full font-bold text-lg text-white">
+                                اكتشف خدماتنا <i class="fas fa-arrow-left mr-2"></i>
+                            </button>
+                            <button onclick="checkLoginStatusRedirect()" class="btn-3d border-2 border-white/30 px-8 py-4 rounded-full font-bold text-lg text-white bg-transparent hover:bg-white/10">
+                                <span id="ctaButton">ابدأ الآن</span> <i class="fas fa-rocket mr-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 mt-12">
+                        <div class="text-center">
+                            <div class="stat-number text-4xl mb-2" data-target="50">0</div>
+                            <div class="text-gray-400 text-sm">Projects Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number text-4xl mb-2" data-target="30">0</div>
+                            <div class="text-gray-400 text-sm">Happy Clients</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number text-4xl mb-2" data-target="5">0</div>
+                            <div class="text-gray-400 text-sm">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative hidden md:block">
+                    <div class="relative w-full h-[500px] floating-element" style="animation-delay: 1s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl backdrop-blur-xl border border-white/20"></div>
+                        <div class="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl rotate-12 animate-pulse"></div>
+                        <div class="absolute bottom-20 left-10 w-40 h-40 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full blur-sm"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <i class="fas fa-rocket text-9xl text-white/20"></i>
+                        </div>
+                        
+                        <div class="absolute top-20 left-10 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 floating-element" style="animation-delay: 0.5s;">
+                            <i class="fas fa-code text-3xl text-purple-400 mb-2"></i>
+                            <div class="text-sm">تطوير المواقع</div>
+                        </div>
+                        <div class="absolute bottom-32 right-20 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 floating-element" style="animation-delay: 1s;">
+                            <i class="fas fa-paint-brush text-3xl text-pink-400 mb-2"></i>
+                            <div class="text-sm">التصميم الإبداعي</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" onclick="scrollToSection('services')">
+            <i class="fas fa-chevron-down text-2xl text-white/50"></i>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">خدماتنا الرقمية</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">اختر من مجموعتنا المتنوعة من الخدمات الرقمية عالية الجودة المصممة خصيصاً لنمو عملك</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('web')">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">تطوير المواقع</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">تصميم وتطوير مواقع احترافية متجاوبة مع جميع الأجهزة بتقنيات حديثة</p>
+                    <div class="flex items-center text-purple-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('design')">
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">التصميم الجرافيكي</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">تصاميم إبداعية مذهلة للهويات البصرية والشعارات والمواد التسويقية</p>
+                    <div class="flex items-center text-pink-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('marketing')">
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">التسويق الرقمي</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">استراتيجيات تسويقية متكاملة لزيادة الوصول والتحويلات على وسائل التواصل</p>
+                    <div class="flex items-center text-blue-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('app')">
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">تطوير التطبيقات</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">تطبيقات جوال native و cross-platform لأنظمة iOS و Android</p>
+                    <div class="flex items-center text-green-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('seo')">
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">تحسين محركات البحث</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">خدمات SEO متكاملة لتحسين ترتيب موقعك في نتائج البحث Google</p>
+                    <div class="flex items-center text-orange-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card-3d rounded-2xl p-8" onclick="openServiceModal('content')">
+                    <div class="icon-3d w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3">كتابة المحتوى</h3>
+                    <p class="text-gray-400 mb-4 leading-relaxed">محتوى إبداعي وجذاب يعزز تواجدك الرقمي ويحسن SEO</p>
+                    <div class="flex items-center text-indigo-400 font-semibold">
+                        <span>المزيد من التفاصيل</span>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Services Section (for logged in users only) -->
+            <div id="premium-services" class="hidden mt-16">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 mb-4">
+                        <i class="fas fa-crown"></i>
+                        <span class="font-bold">خدمات مميزة للمستخدمين المسجلين</span>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">خدمات حصرية</h3>
+                    <p class="text-gray-400 max-w-2xl mx-auto">استمتع بهذه الخدمات المميزة المتاحة فقط للأعضاء المسجلين</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="service-card-3d rounded-2xl p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <span class="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm">حصري</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">نصائح استشارية شهرية</h3>
+                        <p class="text-gray-400 mb-4">جلسات استشارية شهرية مع خبرائنا لتحسين أداء مشروعك</p>
+                        <div class="text-orange-400 font-semibold">
+                            <i class="fas fa-lock-open mr-2"></i> متاح للأعضاء فقط
+                        </div>
+                    </div>
+                    
+                    <div class="service-card-3d rounded-2xl p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm">حصري</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">تقارير أداء متقدمة</h3>
+                        <p class="text-gray-400 mb-4">تقارير مفصلة عن أداء مشروعك مع توصيات مخصصة</p>
+                        <div class="text-pink-400 font-semibold">
+                            <i class="fas fa-lock-open mr-2"></i> متاح للأعضاء فقط
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Service Button -->
+            <div class="mt-12 text-center">
+                <button onclick="openAddServiceModal()" class="btn-3d border-2 border-dashed border-purple-500/50 px-8 py-4 rounded-2xl font-bold text-lg text-purple-400 bg-transparent hover:bg-purple-500/10">
+                    <i class="fas fa-plus ml-2"></i> إضافة خدمة جديدة
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 relative bg-black/20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">باقات الأسعار</h2>
+                <p class="text-gray-400 text-lg">اختر الباقة المناسبة لاحتياجاتك</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">الباقة الأساسية</h3>
+                        <div class="text-gray-400 mb-4">مناسبة للمشاريع الصغيرة</div>
+                        <div class="text-5xl font-black gradient-text mb-2">$99</div>
+                        <div class="text-gray-500">/شهرياً</div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> 5 صفحات ويب</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> تصميم متجاوب</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> دعم فني لمدة شهر</li>
+                        <li class="flex items-center gap-3 text-gray-500"><i class="fas fa-times"></i> SEO متقدم</li>
+                    </ul>
+                    <button onclick="selectPlan('basic')" class="w-full py-3 rounded-full border border-purple-500 text-purple-400 font-bold hover:bg-purple-500 hover:text-white transition-all cursor-pointer">
+                        اختر الباقة
+                    </button>
+                </div>
+
+                <!-- Featured Plan -->
+                <div class="pricing-card featured">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1 rounded-full text-sm font-bold">الأكثر شعبية</div>
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">الباقة الاحترافية</h3>
+                        <div class="text-gray-400 mb-4">للشركات المتوسطة</div>
+                        <div class="text-5xl font-black gradient-text mb-2">$299</div>
+                        <div class="text-gray-500">/شهرياً</div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> صفحات غير محدودة</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> تصميم مخصص 3D</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> دعم فني 24/7</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> SEO متكامل</li>
+                    </ul>
+                    <button onclick="selectPlan('professional')" class="w-full py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:shadow-lg transition-all cursor-pointer">
+                        اختر الباقة
+                    </button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">الباقة المتكاملة</h3>
+                        <div class="text-gray-400 mb-4">للشركات الكبرى</div>
+                        <div class="text-5xl font-black gradient-text mb-2">$599</div>
+                        <div class="text-gray-500">/شهرياً</div>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> كل شيء في الاحترافية</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> تطبيق موبايل</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> مدير حساب مخصص</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check text-green-400"></i> تحليلات متقدمة</li>
+                    </ul>
+                    <button onclick="selectPlan('enterprise')" class="w-full py-3 rounded-full border border-purple-500 text-purple-400 font-bold hover:bg-purple-500 hover:text-white transition-all cursor-pointer">
+                        اختر الباقة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Methods Section -->
+    <section id="payment" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 text-green-400 mb-6 secure-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="text-sm font-bold">مدفوعات آمنة 100% مشفرة</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">طرق الدفع المتاحة</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">نوفر لك مجموعة متنوعة من طرق الدفع الآمنة والموثوقة لراحتك</p>
+            </div>
+
+            <!-- Payment Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Credit Card -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('credit')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">بطاقات الائتمان</h3>
+                    <p class="text-gray-400 text-sm mb-4">Visa, MasterCard, Amex</p>
+                    <div class="flex justify-center gap-2 opacity-60">
+                        <i class="fab fa-cc-visa text-2xl"></i>
+                        <i class="fab fa-cc-mastercard text-2xl"></i>
+                        <i class="fab fa-cc-amex text-2xl"></i>
+                    </div>
+                </div>
+
+                <!-- PayPal -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('paypal')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">PayPal</h3>
+                    <p class="text-gray-400 text-sm mb-4">الدفع السريع والآمن</p>
+                    <div class="text-blue-400 text-sm font-semibold">متاح عالمياً</div>
+                </div>
+
+                <!-- Apple Pay -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('apple')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-gray-700 to-black rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Apple Pay</h3>
+                    <p class="text-gray-400 text-sm mb-4">دفع سريع بالبصمة</p>
+                    <div class="text-gray-400 text-sm">لأجهزة iOS</div>
+                </div>
+
+                <!-- Google Pay -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('google')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-green-600 to-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Google Pay</h3>
+                    <p class="text-gray-400 text-sm mb-4">دفع سهل لأندرويد</p>
+                    <div class="text-gray-400 text-sm">لجميع الأجهزة</div>
+                </div>
+
+                <!-- Bank Transfer -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('bank')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-yellow-600 to-orange-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">تحويل بنكي</h3>
+                    <p class="text-gray-400 text-sm mb-4">للشركات والمبالغ الكبيرة</p>
+                    <div class="text-yellow-400 text-sm font-semibold">تفاصيل الحساب</div>
+                </div>
+
+                <!-- Cryptocurrency -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('crypto')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fab fa-bitcoin"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">عملات رقمية</h3>
+                    <p class="text-gray-400 text-sm mb-4">Bitcoin, Ethereum, USDT</p>
+                    <div class="flex justify-center gap-2 text-sm">
+                        <span class="px-2 py-1 bg-orange-500/20 rounded text-orange-400">BTC</span>
+                        <span class="px-2 py-1 bg-blue-500/20 rounded text-blue-400">ETH</span>
+                    </div>
+                </div>
+
+                <!-- STC Pay -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('stc')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">STC Pay</h3>
+                    <p class="text-gray-400 text-sm mb-4">محفظة رقمية سعودية</p>
+                    <div class="text-purple-400 text-sm font-semibold">رقم الهاتف</div>
+                </div>
+
+                <!-- Cash on Delivery -->
+                <div class="payment-card-3d rounded-2xl p-6 text-center" onclick="showPaymentDetails('cash')">
+                    <div class="payment-icon-wrapper w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">الدفع عند الاستلام</h3>
+                    <p class="text-gray-400 text-sm mb-4">للعملاء المحليين</p>
+                    <div class="text-green-400 text-sm font-semibold">متاح في الرياض</div>
+                </div>
+            </div>
+
+            <!-- 3D Credit Card Visualization -->
+            <div class="credit-card-container mb-8">
+                <div class="credit-card-3d">
+                    <div class="credit-card-front">
+                        <div class="flex justify-between items-start">
+                            <div class="text-2xl font-bold italic">VISA</div>
+                            <i class="fas fa-wifi text-2xl opacity-50"></i>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="text-2xl tracking-widest mb-2 font-mono">**** **** **** 4242</div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs opacity-70 mb-1">حامل البطاقة</div>
+                                    <div class="font-semibold">ABDULLAH AL-SAUD</div>
+                                </div>
+                                <div>
+                                    <div class="text-xs opacity-70 mb-1">صالح حتى</div>
+                                    <div class="font-semibold">12/28</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="credit-card-back">
+                        <div class="w-full h-12 bg-black/30 mb-4"></div>
+                        <div class="px-4">
+                            <div class="text-xs mb-1">CVV</div>
+                            <div class="bg-white/20 w-full h-8 rounded flex items-center px-2 font-mono">***</div>
+                        </div>
+                        <div class="mt-auto text-center text-sm opacity-70">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            معاملات آمنة ومشفرة
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 mb-16 text-sm">مرر الماوس على البطاقة لرؤية الخلف</p>
+
+            <!-- Trust Badges -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white/5 backdrop-blur rounded-xl p-4 text-center border border-white/10">
+                    <i class="fas fa-lock text-3xl text-green-400 mb-2"></i>
+                    <div class="font-bold text-sm">SSL مشفرة</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur rounded-xl p-4 text-center border border-white/10">
+                    <i class="fas fa-shield-alt text-3xl text-blue-400 mb-2"></i>
+                    <div class="font-bold text-sm">حماية 3D Secure</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur rounded-xl p-4 text-center border border-white/10">
+                    <i class="fas fa-check-circle text-3xl text-purple-400 mb-2"></i>
+                    <div class="font-bold text-sm">تحقق من الهوية</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur rounded-xl p-4 text-center border border-white/10">
+                    <i class="fas fa-undo text-3xl text-pink-400 mb-2"></i>
+                    <div class="font-bold text-sm">ضمان استرداد</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">تواصل معنا</h2>
+                    <p class="text-gray-400 text-lg">نحن هنا لمساعدتك في تحقيق أهدافك الرقمية</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 text-xl">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">الموقع</h4>
+                                <p class="text-gray-400">iraq</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 text-xl">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">البريد الإلكتروني</h4>
+                                <p class="text-gray-400">alihussiien5@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 text-xl">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-1">الهاتف</h4>
+                                <p class="text-gray-400">مو مهم</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="space-y-6" onsubmit="handleSubmit(event)">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <input type="text" placeholder="الاسم" class="form-input" required>
+                            <input type="email" placeholder="البريد الإلكتروني" class="form-input" required>
+                        </div>
+                        <input type="text" placeholder="الموضوع" class="form-input" required>
+                        <textarea rows="5" placeholder="رسالتك..." class="form-input resize-none" required></textarea>
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-lg text-white hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer">
+                            إرسال الرسالة <i class="fas fa-paper-plane mr-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black/40 border-t border-white/10 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4 cursor-pointer" onclick="scrollToSection('home')">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cube text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold gradient-text">ديجيتال برو</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">نحن نقدم حلولاً رقمية مبتكرة بتقنيات ثلاثية الأبعاد لتحويل أفكارك إلى واقع ملموس.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">روابط سريعة</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><button onclick="scrollToSection('home')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">الرئيسية</button></li>
+                        <li><button onclick="scrollToSection('services')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">الخدمات</button></li>
+                        <li><button onclick="scrollToSection('pricing')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">الأسعار</button></li>
+                        <li><button onclick="scrollToSection('payment')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">الدفع</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">الخدمات</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><button onclick="scrollToSection('services')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">تطوير المواقع</button></li>
+                        <li><button onclick="scrollToSection('services')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">التصميم الجرافيكي</button></li>
+                        <li><button onclick="scrollToSection('services')" class="bg-transparent border-none text-gray-400 hover:text-purple-400 transition-colors cursor-pointer text-right w-full">التسويق الرقمي</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">تابعنا</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 ديجيتال برو. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Modal -->
+    <div id="service-modal" class="modal-overlay" onclick="closeServiceModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeServiceModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="service-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal-overlay" onclick="closePaymentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="payment-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="add-service-modal" class="modal-overlay" onclick="closeAddServiceModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeAddServiceModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-2xl font-bold mb-6 gradient-text">إضافة خدمة جديدة</h3>
+            <form onsubmit="addNewService(event)" class="space-y-4">
+                <input type="text" id="new-service-title" placeholder="عنوان الخدمة" class="form-input" required>
+                <textarea id="new-service-desc" placeholder="وصف الخدمة" rows="3" class="form-input" required></textarea>
+                <select id="new-service-icon" class="form-input">
+                    <option value="code">تطوير</option>
+                    <option value="paint-brush">تصميم</option>
+                    <option value="bullhorn">تسويق</option>
+                    <option value="mobile-alt">موبايل</option>
+                    <option value="search">SEO</option>
+                    <option value="pen-nib">كتابة</option>
+                </select>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeAddServiceModal()" class="flex-1 py-3 border border-white/20 rounded-xl hover:bg-white/5 transition-all text-white bg-transparent cursor-pointer">إلغاء</button>
+                    <button type="submit" class="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-white hover:shadow-lg transition-all cursor-pointer">إضافة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Login Modal -->
+    <div id="quick-login-modal" class="modal-overlay" onclick="closeQuickLoginModal(event)">
+        <div class="modal-content max-w-md" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeQuickLoginModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">تسجيل الدخول السريع</h3>
+                <p class="text-gray-400">سجل دخولك لمتابعة طلبك</p>
+            </div>
+            
+            <div class="space-y-4">
+                <input type="email" id="quick-email" placeholder="البريد الإلكتروني" class="form-input">
+                <input type="password" id="quick-password" placeholder="كلمة المرور" class="form-input">
+                
+                <button onclick="quickLogin()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-bold">
+                    تسجيل الدخول
+                </button>
+                
+                <div class="text-center pt-4 border-t border-white/10">
+                    <p class="text-gray-400 text-sm">ليس لديك حساب؟ 
+                        <a href="register.html" class="text-purple-400 hover:text-purple-300">إنشاء حساب</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle System
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            particles.forEach((a, index) => {
+                particles.slice(index + 1).forEach(b => {
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(139, 92, 246, ${0.1 * (1 - distance/100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                // Close mobile menu if open
+                document.getElementById('mobile-menu').classList.remove('active');
+            }
+        }
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounters, 20);
+                } else {
+                    counter.innerText = target + '+';
+                }
+            });
+        };
+
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stat-number')?.parentElement?.parentElement;
+        if (statsSection) observer.observe(statsSection);
+
+        // Service Data
+        const serviceData = {
+            web: {
+                title: 'تطوير المواقع',
+                icon: 'fa-laptop-code',
+                color: 'purple',
+                description: 'نقدم خدمات تطوير مواقع احترافية باستخدام أحدث التقنيات والأطر البرمجية.',
+                features: ['تصميم متجاوب مع جميع الأجهزة', 'تحسين السرعة والأداء', 'أمان عالي المستوى', 'لوحة تحكم سهلة الاستخدام']
+            },
+            design: {
+                title: 'التصميم الجرافيكي',
+                icon: 'fa-palette',
+                color: 'pink',
+                description: 'تصاميم إبداعية وفريدة تعكس هوية علامتك التجارية.',
+                features: ['تصميم الشعارات', 'هوية بصرية متكاملة', 'تصميم المنشورات', 'تصميم وسائل التواصل']
+            },
+            marketing: {
+                title: 'التسويق الرقمي',
+                icon: 'fa-bullhorn',
+                color: 'blue',
+                description: 'استراتيجيات تسويقية متكاملة لزيادة الوصول وتحقيق أهدافك التجارية.',
+                features: ['إدارة حملات إعلانية', 'تحليلات و تقارير', 'إدارة وسائل التواصل', 'تحسين معدل التحويل']
+            },
+            app: {
+                title: 'تطوير التطبيقات',
+                icon: 'fa-mobile-alt',
+                color: 'green',
+                description: 'تطبيقات جوال عالية الجودة لأنظمة iOS و Android.',
+                features: ['تطبيقات Native', 'تطبيقات Cross-platform', 'واجهات مستخدم سلسة', 'دعم وصيانة مستمر']
+            },
+            seo: {
+                title: 'تحسين محركات البحث',
+                icon: 'fa-search',
+                color: 'orange',
+                description: 'خدمات SEO متكاملة لتحسين ترتيب موقعك في نتائج البحث.',
+                features: ['بحث الكلمات المفتاحية', 'تحسين المحتوى', 'بناء الروابط الخلفية', 'تحليل المنافسين']
+            },
+            content: {
+                title: 'كتابة المحتوى',
+                icon: 'fa-pen-nib',
+                color: 'indigo',
+                description: 'محتوى إبداعي وجذاب يعزز تواجدك الرقمي ويحسن SEO.',
+                features: ['محتوى تسويقي', 'مدونات ومقالات', 'محتوى وسائل التواصل', 'سكريبتات فيديو']
+            }
+        };
+
+        // Service Modal Functions
+        function openServiceModal(serviceId) {
+            const service = serviceData[serviceId];
+            if (!service) return;
+            
+            const modal = document.getElementById('service-modal');
+            const body = document.getElementById('service-modal-body');
+            
+            body.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-${service.color}-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl text-${service.color}-400">
+                        <i class="fas ${service.icon}"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-2">${service.title}</h3>
+                    <p class="text-gray-400">${service.description}</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    ${service.features.map(feature => `
+                        <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg">
+                            <i class="fas fa-check text-${service.color}-400"></i>
+                            <span>${feature}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <button onclick="closeServiceModal(); scrollToSection('payment')" class="w-full py-3 bg-gradient-to-r from-${service.color}-600 to-purple-600 rounded-xl font-bold text-white hover:shadow-lg transition-all cursor-pointer">
+                    اطلب الخدمة الآن
+                </button>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeServiceModal(event) {
+            if (event && event.target !== event.currentTarget && event.type === 'click') return;
+            document.getElementById('service-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Payment Data
+        const paymentData = {
+            credit: {
+                title: 'بطاقات الائتمان',
+                icon: 'fa-credit-card',
+                color: 'blue',
+                description: 'نقبل جميع بطاقات الائتمان الرئيسية مع تشفير SSL و حماية 3D Secure',
+                details: [
+                    { label: 'Visa', value: 'مقبولة عالمياً' },
+                    { label: 'MasterCard', value: 'مقبولة عالمياً' },
+                    { label: 'American Express', value: 'متاح للمبالغ الكبيرة' },
+                    { label: 'الرسوم', value: 'بدون رسوم إضافية' }
+                ],
+                note: 'يتم معالجة الدفع فوراً وتفعيل الخدمة خلال 24 ساعة'
+            },
+            paypal: {
+                title: 'PayPal',
+                icon: 'fa-paypal',
+                color: 'blue',
+                description: 'الدفع السريع والآمن عبر PayPal مع حماية المشتري',
+                details: [
+                    { label: 'الحساب', value: 'payments@digitalpro.com' },
+                    { label: 'العملات', value: 'USD, EUR, GBP, SAR' },
+                    { label: 'الوقت', value: 'فوري' },
+                    { label: 'الحماية', value: 'مضمونة 180 يوم' }
+                ],
+                note: 'يمكنك الدفع مباشرة من رصيد PayPal أو البطاقة المربوطة'
+            },
+            apple: {
+                title: 'Apple Pay',
+                icon: 'fa-apple',
+                color: 'gray',
+                description: 'دفع سريع بالبصمة Face ID أو Touch ID لأجهزة iOS',
+                details: [
+                    { label: 'التوافق', value: 'iPhone, iPad, Mac' },
+                    { label: 'الأمان', value: 'رمز الأمان الديناميكي' },
+                    { label: 'الخصوصية', value: 'لا نشارك بياناتك' },
+                    { label: 'السرعة', value: 'ثانية واحدة' }
+                ],
+                note: 'يتطلب iOS 11.2 أو أحدث'
+            },
+            google: {
+                title: 'Google Pay',
+                icon: 'fa-google',
+                color: 'green',
+                description: 'دفع سهل وسريع لجميع أجهزة Android',
+                details: [
+                    { label: 'التوافق', value: 'Android 5.0+' },
+                    { label: 'الساعات', value: 'Wear OS مدعوم' },
+                    { label: 'المتصفح', value: 'Chrome متاح' },
+                    { label: 'المكافآت', value: 'نقاط Google' }
+                ],
+                note: 'متوفر في أكثر من 40 دولة'
+            },
+            bank: {
+                title: 'تحويل بنكي',
+                icon: 'fa-university',
+                color: 'yellow',
+                description: 'للشركات والمبالغ الكبيرة، تحويل مباشر لحسابنا البنكي',
+                details: [
+                    { label: 'البنك', value: 'البنك الأهلي السعودي' },
+                    { label: 'الحساب', value: 'SA03 8000 0000 6080 1016 7519' },
+                    { label: 'الاسم', value: 'ديجيتال برو للتقنية' },
+                    { label: 'الوقت', value: '1-2 يوم عمل' }
+                ],
+                note: 'يرجى إرسال إيصال التحويل لتفعيل الخدمة'
+            },
+            crypto: {
+                title: 'عملات رقمية',
+                icon: 'fa-bitcoin',
+                color: 'orange',
+                description: 'نقبل العملات الرقمية المشفرة بشكل آمن',
+                details: [
+                    { label: 'Bitcoin', value: 'BTC' },
+                    { label: 'Ethereum', value: 'ETH' },
+                    { label: 'USDT', value: 'TRC20, ERC20' },
+                    { label: 'الخصم', value: '5% خصم إضافي' }
+                ],
+                note: 'سيتم إرسال عنوان المحفظة عند الطلب'
+            },
+            stc: {
+                title: 'STC Pay',
+                icon: 'fa-mobile-alt',
+                color: 'purple',
+                description: 'محفظة رقمية سعودية سهلة وآمنة',
+                details: [
+                    { label: 'الرقم', value: '050 123 4567' },
+                    { label: 'الاسم', value: 'ديجيتال برو' },
+                    { label: 'الرسوم', value: 'بدون رسوم' },
+                    { label: 'الوقت', value: 'فوري' }
+                ],
+                note: 'متاح فقط داخل المملكة العربية السعودية'
+            },
+            cash: {
+                title: 'الدفع عند الاستلام',
+                icon: 'fa-money-bill-wave',
+                color: 'green',
+                description: 'للعملاء المحليين في الرياض فقط',
+                details: [
+                    { label: 'المنطقة', value: 'الرياض فقط' },
+                    { label: 'الحد الأدنى', value: '500 ريال' },
+                    { label: 'الرسوم', value: '30 ريال إضافية' },
+                    { label: 'الوقت', value: 'حسب الجدولة' }
+                ],
+                note: 'يتطلب دفع عربون 20% مقدماً'
+            }
+        };
+
+        // Payment Modal Functions
+        function showPaymentDetails(method) {
+            const data = paymentData[method];
+            if (!data) return;
+            
+            const modal = document.getElementById('payment-modal');
+            const body = document.getElementById('payment-modal-body');
+            
+            body.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-${data.color}-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl text-${data.color}-400">
+                        <i class="fas ${data.icon}"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-2">${data.title}</h3>
+                    <p class="text-gray-400">${data.description}</p>
+                </div>
+                <div class="space-y-3 mb-6">
+                    ${data.details.map(detail => `
+                        <div class="flex justify-between items-center bg-white/5 p-4 rounded-lg">
+                            <span class="text-gray-400">${detail.label}</span>
+                            <span class="font-bold text-${data.color}-400">${detail.value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="bg-${data.color}-500/10 border border-${data.color}-500/30 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-${data.color}-400 text-center">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        ${data.note}
+                    </p>
+                </div>
+                <button onclick="closePaymentModal(); scrollToSection('contact')" class="w-full py-3 bg-gradient-to-r from-${data.color}-600 to-purple-600 rounded-xl font-bold text-white hover:shadow-lg transition-all cursor-pointer">
+                    اطلب الآن
+                </button>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal(event) {
+            if (event && event.target !== event.currentTarget && event.type === 'click') return;
+            document.getElementById('payment-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add Service Modal Functions
+        function openAddServiceModal() {
+            const userRole = localStorage.getItem('userRole');
+            
+            if (userRole === 'admin') {
+                document.getElementById('add-service-modal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                alert('هذه الميزة متاحة للمسؤولين فقط. يرجى تسجيل الدخول كمسؤول.');
+                checkLoginStatusRedirect();
+            }
+        }
+
+        function closeAddServiceModal(event) {
+            if (event && event.target !== event.currentTarget && event.type === 'click') return;
+            document.getElementById('add-service-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function addNewService(event) {
+            event.preventDefault();
+            const title = document.getElementById('new-service-title').value;
+            const desc = document.getElementById('new-service-desc').value;
+            const icon = document.getElementById('new-service-icon').value;
+            
+            const grid = document.getElementById('services-grid');
+            const newCard = document.createElement('div');
+            newCard.className = 'service-card-3d rounded-2xl p-8';
+            newCard.onclick = function() { alert('خدمة جديدة: ' + title); };
+            newCard.innerHTML = `
+                <div class="icon-3d w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">${title}</h3>
+                <p class="text-gray-400 mb-4 leading-relaxed">${desc}</p>
+                <div class="flex items-center text-purple-400 font-semibold">
+                    <span>المزيد من التفاصيل</span>
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </div>
+            `;
+            
+            grid.appendChild(newCard);
+            closeAddServiceModal();
+            event.target.reset();
+            alert('تم إضافة الخدمة بنجاح!');
+        }
+
+        // Plan Selection
+        function selectPlan(plan) {
+            const planNames = {
+                'basic': 'الباقة الأساسية',
+                'professional': 'الباقة الاحترافية',
+                'enterprise': 'الباقة المتكاملة'
+            };
+            alert(`تم اختيار ${planNames[plan]}. سيتم توجيهك لصفحة الدفع.`);
+            scrollToSection('payment');
+        }
+
+        // Form Submit
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.');
+            event.target.reset();
+        }
+
+        // دالة التحقق من حالة تسجيل الدخول وتحديث الواجهة
+        function checkLoginStatus() {
+            const userRole = localStorage.getItem('userRole');
+            const userEmail = localStorage.getItem('userEmail');
+            const loginBtn = document.getElementById('loginBtn');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const premiumSection = document.getElementById('premium-services');
+            const ctaButton = document.getElementById('ctaButton');
+            
+            if (userRole && userEmail) {
+                // الحصول على اسم المستخدم
+                let userName = 'حسابي';
+                try {
+                    const userData = JSON.parse(localStorage.getItem('userData'));
+                    if (userData && userData.firstName) {
+                        userName = userData.firstName;
+                    }
+                } catch (e) {
+                    console.log('لا توجد بيانات مستخدم');
+                }
+                
+                // تحديث زر تسجيل الدخول الرئيسي
+                if (loginBtn) {
+                    loginBtn.innerHTML = `<i class="fas fa-user mr-2"></i> ${userName}`;
+                    loginBtn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-blue-600');
+                    loginBtn.classList.add('bg-gradient-to-r', 'from-purple-700', 'to-blue-700');
+                    loginBtn.onclick = function() {
+                        if (userRole === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    };
+                }
+                
+                // تحديث زر تسجيل الدخول للموبايل
+                if (mobileLoginBtn) {
+                    mobileLoginBtn.innerHTML = `<i class="fas fa-user mr-2"></i> ${userName}`;
+                    mobileLoginBtn.onclick = function() {
+                        toggleMobileMenu();
+                        if (userRole === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    };
+                }
+                
+                // عرض الخدمات المميزة
+                if (premiumSection) {
+                    premiumSection.classList.remove('hidden');
+                    premiumSection.classList.add('block');
+                }
+                
+                // تحديث زر CTA
+                if (ctaButton) {
+                    ctaButton.textContent = 'لوحة التحكم';
+                }
+            } else {
+                // إخفاء الخدمات المميزة
+                if (premiumSection) {
+                    premiumSection.classList.add('hidden');
+                    premiumSection.classList.remove('block');
+                }
+                
+                // تحديث زر CTA
+                if (ctaButton) {
+                    ctaButton.textContent = 'ابدأ الآن';
+                }
+            }
+        }
+
+        // دالة للتحقق وإعادة التوجيه
+        function checkLoginStatusRedirect() {
+            const userRole = localStorage.getItem('userRole');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (userRole && userEmail) {
+                if (userRole === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // دالة تسجيل الخروج
+        function logout() {
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userData');
+            window.location.href = 'projectx.html';
+        }
+
+        // Quick Login Modal Functions
+        function openQuickLoginModal() {
+            document.getElementById('quick-login-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuickLoginModal(event) {
+            if (event && event.target !== event.currentTarget && event.type === 'click') return;
+            document.getElementById('quick-login-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function quickLogin() {
+            const email = document.getElementById('quick-email').value;
+            const password = document.getElementById('quick-password').value;
+            
+            // محاكاة التسجيل (يمكن استبدالها بطلب AJAX حقيقي)
+            if (email && password) {
+                if (email === "admin@digitalpro.com" && password === "admin123") {
+                    localStorage.setItem('userRole', 'admin');
+                    localStorage.setItem('userEmail', email);
+                    closeQuickLoginModal();
+                    checkLoginStatus();
+                    alert('مرحباً بالمسؤول!');
+                } else {
+                    localStorage.setItem('userRole', 'user');
+                    localStorage.setItem('userEmail', email);
+                    closeQuickLoginModal();
+                    checkLoginStatus();
+                    alert('تم تسجيل الدخول بنجاح!');
+                }
+            } else {
+                alert('يرجى ملء جميع الحقول');
+            }
+        }
+
+        // التحقق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            
+            // إضافة listener للتغيرات في localStorage
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'userRole' || e.key === 'userEmail') {
+                    checkLoginStatus();
+                }
+            });
+        });
+
+        // تحديث حالة المستخدم عند كل زيارة للصفحة
+        window.addEventListener('load', checkLoginStatus);
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeServiceModal();
+                closePaymentModal();
+                closeAddServiceModal();
+                closeQuickLoginModal();
+            }
+        });
+    </script>
+</body>
+</html>
